@@ -1,0 +1,50 @@
+[gd_scene load_steps=8 format=3 uid="uid://cqvmhob7eaa60"]
+
+[ext_resource type="Script" uid="uid://1clx10ko8aic" path="res://src/others/player.gd" id="1_4flbx"]
+[ext_resource type="PackedScene" uid="uid://crw4mkm354m41" path="res://src/others/projectile.tscn" id="2_onrkg"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_sh265"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4flbx"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_onrkg"]
+radius = 26.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_i3pqv"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_rr8ih"]
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_4flbx")
+projectile = ExtResource("2_onrkg")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+scale = Vector2(20, 20)
+mesh = SubResource("QuadMesh_sh265")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_4flbx")
+
+[node name="ProjectileSpawnPos" type="Marker2D" parent="."]
+position = Vector2(16, 0)
+
+[node name="PickupTrigger" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PickupTrigger"]
+shape = SubResource("CircleShape2D_onrkg")
+
+[node name="EnemyTrigger" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyTrigger"]
+shape = SubResource("CircleShape2D_i3pqv")
+debug_color = Color(0.99762434, 0, 0.171902, 0.41960785)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_rr8ih")
+
+[connection signal="area_entered" from="PickupTrigger" to="." method="_on_pickup_trigger_area_entered"]
+[connection signal="body_entered" from="EnemyTrigger" to="." method="_on_enemy_trigger_body_entered"]

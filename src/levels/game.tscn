@@ -1,0 +1,99 @@
+[gd_scene load_steps=10 format=3 uid="uid://qbmd3mvp74vm"]
+
+[ext_resource type="Texture2D" uid="uid://byijrrtxawf1t" path="res://assets/textures/sprites/BG/Sprite-0001.png" id="1_vv6oh"]
+[ext_resource type="PackedScene" uid="uid://cqvmhob7eaa60" path="res://src/others/player.tscn" id="2_rli24"]
+[ext_resource type="Script" uid="uid://63oj614h4vgl" path="res://src/others/spawner.gd" id="3_g1y58"]
+[ext_resource type="PackedScene" uid="uid://pvkltf5j4kpf" path="res://src/others/enemy.tscn" id="4_xvqtp"]
+[ext_resource type="Script" uid="uid://bmaks8fj8l0ra" path="res://src/levels/lives.gd" id="5_d0pvn"]
+[ext_resource type="Script" uid="uid://dmidw6r14sjcx" path="res://src/others/score_label.gd" id="5_xvqtp"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rli24"]
+size = Vector2(33, 496)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vv6oh"]
+size = Vector2(1893, 85)
+
+[sub_resource type="LabelSettings" id="LabelSettings_d0pvn"]
+font_size = 64
+
+[node name="Game" type="Node2D"]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_right = 1871.0
+offset_bottom = 486.0
+color = Color(0.23529412, 0.7607843, 0.88235295, 1)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(15, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(-20.5, 238)
+shape = SubResource("RectangleShape2D_rli24")
+
+[node name="Parallax2D" type="Parallax2D" parent="."]
+repeat_size = Vector2(640, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="Parallax2D"]
+position = Vector2(320, 237)
+scale = Vector2(2.5208333, 2.5208333)
+texture = ExtResource("1_vv6oh")
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+offset_left = 7.0
+offset_top = 405.0
+offset_right = 1879.0
+offset_bottom = 421.0
+color = Color(0.24120823, 0.43954468, 0.10920275, 1)
+
+[node name="ColorRect" type="ColorRect" parent="ColorRect2"]
+layout_mode = 0
+offset_top = 11.0
+offset_right = 1878.0
+offset_bottom = 78.0
+color = Color(0.56078434, 0.3372549, 0.23137255, 1)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="ColorRect2"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ColorRect2/StaticBody2D"]
+position = Vector2(936.5, 42.5)
+shape = SubResource("RectangleShape2D_vv6oh")
+
+[node name="Player" parent="." instance=ExtResource("2_rli24")]
+position = Vector2(45, 373)
+scale = Vector2(2, 2)
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+position = Vector2(85.5, -22)
+scale = Vector2(0.5, 0.5)
+zoom = Vector2(1.5, 1.5)
+limit_left = 0
+limit_top = 0
+limit_bottom = 480
+position_smoothing_enabled = true
+position_smoothing_speed = 20.0
+
+[node name="Spawner" type="Marker2D" parent="Player/Camera2D"]
+position = Vector2(176, 32)
+script = ExtResource("3_g1y58")
+scene = ExtResource("4_xvqtp")
+metadata/_custom_type_script = "uid://63oj614h4vgl"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Lives" type="Label" parent="CanvasLayer"]
+offset_left = 57.0
+offset_top = 11.0
+offset_right = 170.0
+offset_bottom = 99.0
+text = "0"
+label_settings = SubResource("LabelSettings_d0pvn")
+script = ExtResource("5_d0pvn")
+
+[node name="Score" type="Label" parent="CanvasLayer"]
+offset_left = 359.0
+offset_top = 6.0
+offset_right = 472.0
+offset_bottom = 94.0
+text = "0"
+label_settings = SubResource("LabelSettings_d0pvn")
+script = ExtResource("5_xvqtp")

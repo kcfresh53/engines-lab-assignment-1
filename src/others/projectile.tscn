@@ -1,0 +1,49 @@
+[gd_scene load_steps=8 format=3 uid="uid://crw4mkm354m41"]
+
+[ext_resource type="Script" uid="uid://bvhn8jl6drwla" path="res://src/others/projectile.gd" id="1_qxf0c"]
+[ext_resource type="Texture2D" uid="uid://bg8j1y7j7ykbt" path="res://assets/textures/sprites/weapon/48.png" id="2_hvgt6"]
+[ext_resource type="Texture2D" uid="uid://dq3jt1bk8qglo" path="res://assets/textures/sprites/weapon/47.png" id="3_ggy57"]
+[ext_resource type="Texture2D" uid="uid://cvixnkn4ckma" path="res://assets/textures/sprites/weapon/33.png" id="4_myhby"]
+[ext_resource type="Texture2D" uid="uid://cn8w7sth75lq7" path="res://assets/textures/sprites/weapon/32.png" id="5_ojlr1"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_p7wmq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_hvgt6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_ggy57")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_myhby")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_ojlr1")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_sxmqc"]
+radius = 6.0
+
+[node name="Projectile" type="RigidBody2D"]
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("1_qxf0c")
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(1.5, 1.5)
+sprite_frames = SubResource("SpriteFrames_p7wmq")
+autoplay = "default"
+frame_progress = 0.115076765
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_sxmqc")
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

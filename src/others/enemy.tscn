@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://pvkltf5j4kpf"]
+
+[ext_resource type="Script" uid="uid://c4d5p0jl7bd6x" path="res://src/others/enemy.gd" id="1_7k104"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_7xaro"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7k104"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7k104"]
+radius = 17.0
+
+[node name="Enemy" type="CharacterBody2D"]
+collision_layer = 4
+script = ExtResource("1_7k104")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+modulate = Color(1, 0, 0, 1)
+scale = Vector2(20, 20)
+mesh = SubResource("QuadMesh_7xaro")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_7k104")
+
+[node name="Coll" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Coll"]
+shape = SubResource("CircleShape2D_7k104")
+
+[connection signal="body_entered" from="Coll" to="." method="_on_coll_body_entered"]
